@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta9
+kind: Config
+metadata:
+  name: tickting
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/auth-depl.yaml
+build:
+  artifacts:
+  - image: brunnouw/auth
+    context: auth
+    sync:
+      manual:
+        - src: 'src/**/*.ts'
+          dest: .
