@@ -9,5 +9,6 @@ app.listen(3000, () => {
 });
 
 app.get('/', (request: Request, response: Response) => response.status(200).json({ok: true}));
+app.get('/api/users/currentuser', (request: Request, response: Response) => response.status(200).send('Hi there!!!'));
 
 export default app;
