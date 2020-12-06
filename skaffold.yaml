@@ -1,11 +1,11 @@
 apiVersion: skaffold/v2beta9
 kind: Config
 metadata:
-  name: tickting
+  name: ticketing
 deploy:
   kubectl:
     manifests:
-      - ./infra/k8s/auth-depl.yaml
+      - ./infra/k8s/*
 build:
   artifacts:
   - image: brunnouw/auth
