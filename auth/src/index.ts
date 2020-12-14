@@ -1,14 +1,15 @@
-import express, { Request, Response } from 'express';
 import 'express-async-errors';
+import express, { Request, Response } from 'express';
 import { json } from 'body-parser';
 import mongoose from 'mongoose';
 
-import currentUserRouter from './modules/currentuser/routes';
-import signinRouter from './modules/signin/routes';
-import signoutRouter from './modules/signout/routes';
-import signUpRouter from './modules/signup/routes';
+import currentUserRouter from './modules/user/infra/http/routes/currentuser.routes';
+import signinRouter from './modules/user/infra/http/routes/signin.routes';
+import signoutRouter from './modules/user/infra/http/routes/signout.routes';
+import signUpRouter from './modules/user/infra/http/routes/signup.routes';
 import errorHandler from "./shared/middlerwares/errors";
 import NotFoundError from './shared/errors/NotFoundError';
+import DatabaseError from './shared/errors/DatabaseError';
 
 const app = express();
 app.use(json());
@@ -35,8 +36,8 @@ const start = async () => {
         app.listen(3000, () => {
             console.log('Listening on port 3000!');
         });
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        throw new DatabaseError(`Cannot connect to database: ${e.message}`);
     }
 }
 

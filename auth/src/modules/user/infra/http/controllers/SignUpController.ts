@@ -1,7 +1,7 @@
 import { body, validationResult } from 'express-validator'
 import { Response, Request } from "express";
-import signUpService from "../services/SignUpService";
-import RequestError from '../../../shared/errors/RequestError';
+import signUpService from "../../../services/SignUpService";
+import RequestError from '../../../../../shared/errors/RequestError';
 
 export const signUpValidations = [
     body('email')
@@ -13,7 +13,7 @@ export const signUpValidations = [
     .withMessage('Password must be between 4 and 20 characters')
 ]
 
-const signUpController = (request: Request, response: Response): Response<any> => {
+const signUpController = async (request: Request, response: Response): Promise<Response> => {
 
     const validations = validationResult(request);
 
@@ -22,9 +22,9 @@ const signUpController = (request: Request, response: Response): Response<any> =
     }
 
     const { email, password } = request.body;
-    signUpService({email, password});
-
-    return response.send('Signup!');
+    const createdUser = await signUpService({email, password});
+    
+    return response.status(201).json({successful: true, message: `User ${createdUser.email} created.`});
 }
 
 export default signUpController;

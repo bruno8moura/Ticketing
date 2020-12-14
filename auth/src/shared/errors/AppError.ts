@@ -1,4 +1,4 @@
-import ICommonErrorResponse, { ErrorType } from "./ICommonErrorResponse";
+import ICommonErrorResponse from "./ICommonErrorResponse";
 
 abstract class AppError extends Error {
     abstract statusCode: number;
