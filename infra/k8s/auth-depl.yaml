@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: auth
-        image: brunnouw/auth:0.0.1
+        image: brunnouw/auth:0.0.4
+        env:
+          - name: JWT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: JWT_KEY
         ports:
         - containerPort: 3000
 ---

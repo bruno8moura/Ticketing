@@ -2,6 +2,7 @@ import { body, validationResult } from 'express-validator'
 import { Response, Request } from "express";
 import signUpService from "../../../services/SignUpService";
 import RequestError from '../../../../../shared/errors/RequestError';
+import {setJwtInSession} from '../../../../../shared/utils/jwt';
 
 export const signUpValidations = [
     body('email')
@@ -23,8 +24,10 @@ const signUpController = async (request: Request, response: Response): Promise<R
 
     const { email, password } = request.body;
     const createdUser = await signUpService({email, password});
+
+    setJwtInSession({email, id: createdUser.id, secretKey: process.env.JWT_KEY!}, request);
     
-    return response.status(201).json({successful: true, message: `User ${createdUser.email} created.`});
+    return response.status(201).json(createdUser);
 }
 
 export default signUpController;

@@ -19,9 +19,9 @@ const signUpService = async ({email, password}: IRequest): Promise<UserDoc> => {
     }
 
     const user = User.build({ email, password });
-    const createdUser = await user.save();
+    await user.save();
     
-    return createdUser;
+    return user;
 }
 
 export default signUpService;
