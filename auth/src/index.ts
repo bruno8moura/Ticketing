@@ -12,7 +12,6 @@ import errorHandler from "./shared/middlerwares/errors";
 import NotFoundError from './shared/errors/NotFoundError';
 import DatabaseError from './shared/errors/DatabaseError';
 import JwtSecretNotDefinedError from './shared/errors/JwtSecretNotDefinedError';
-import InvalidJsonError from './shared/errors/InvalidJsonError';
 
 const app = express();
 app.set('trust proxy', true); // tell to express that it is behind a trusted proxy

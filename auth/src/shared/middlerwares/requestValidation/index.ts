@@ -9,5 +9,5 @@ export const requestValidation = (request: Request, response: Response, next: Ne
         throw new RequestValidationError(validations);
     }
 
-    next();
+    return next();
 }
