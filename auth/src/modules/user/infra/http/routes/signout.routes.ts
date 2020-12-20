@@ -1,7 +1,8 @@
 import express, {Request, Response, Router  } from "express";
 
 const router = Router();
+import { signOut } from '../controllers/SignOutController';
 
-router.post('/api/users/signout', (req, res) => {res.send('Logout!')});
+router.delete('/api/users/signout', signOut);
 
 export default router;
