@@ -2,7 +2,6 @@ import WrongCredentialsProvidedError from '../../../shared/errors/WrongCredentia
 import { User, UserDoc } from '../models/User';
 import { Password } from "../../../shared/utils/hash/Password";
 import jwt from 'jsonwebtoken';
-import { v4 } from "uuid";
 
 interface IRequest {
     email: string;
@@ -11,7 +10,11 @@ interface IRequest {
 
 interface IResponse {
     user: UserDoc;
-    tokenJWT: string;
+    session: SessionObject;
+}
+
+interface SessionObject {
+    jwt: string;
 }
 
 export const execute = async ({email, password}: IRequest): Promise<IResponse> => {
@@ -27,5 +30,5 @@ export const execute = async ({email, password}: IRequest): Promise<IResponse> =
         email
     }, process.env.JWT_KEY!);
 
-    return {user: existingUser, tokenJWT: aJwt};
+    return { user: existingUser, session: { jwt: aJwt } };
 }

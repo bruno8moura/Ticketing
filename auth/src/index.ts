@@ -1,6 +1,5 @@
 import 'express-async-errors';
-import express, { Request, Response } from 'express';
-import { IncomingMessage, ServerResponse } from "http";
+import express from 'express';
 import { json } from 'body-parser';
 import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
@@ -20,7 +19,7 @@ app.set('trust proxy', true); // tell to express that it is behind a trusted pro
 app.use(json());
 app.use(
     cookieSession({
-       signed: false, // the cookie won't be encripted
+       signed: false, // the cookie won't be encrypted
        secure: true,  // use cookies only with https connection
     })
 )
@@ -32,7 +31,7 @@ app.use(signUpRouter);
 
 app.all('*', async () => {
     throw new NotFoundError();
-})
+});
 
 app.use(errorHandler);
 
@@ -54,7 +53,7 @@ const start = async () => {
     } catch (e) {
         throw new DatabaseError(`Cannot connect to database: ${e.message}`);
     }
-}
+};
 
 start();
 
