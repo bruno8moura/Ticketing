@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: auth
-        image: brunnouw/auth:0.0.4
+        image: brunnouw/auth
         env:
           - name: JWT_KEY
             valueFrom:

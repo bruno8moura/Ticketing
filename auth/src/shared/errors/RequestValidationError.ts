@@ -2,7 +2,7 @@ import { Result, ValidationError } from 'express-validator'
 import AppError from './AppError';
 import ICommonErrorResponse, { ErrorType } from './ICommonErrorResponse';
 
-class RequestError extends AppError{
+class RequestValidationError extends AppError{
     statusCode = 400;
     private readonly messages: string[];
     private readonly status: ErrorType;
@@ -11,7 +11,7 @@ class RequestError extends AppError{
         super('Invalid request parameters');
 
         // Only because we are extending a built in class
-        Object.setPrototypeOf(this, RequestError.prototype);
+        Object.setPrototypeOf(this, RequestValidationError.prototype);
 
         this.messages = validations.array().map((validation): string => validation.msg);
         this.status = 'client.error';
@@ -25,4 +25,4 @@ class RequestError extends AppError{
     }
 }
 
-export default RequestError;
+export default RequestValidationError;

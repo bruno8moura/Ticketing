@@ -1,8 +1,9 @@
-import express, { Request, Response, Router  } from "express";
-import signUpController, { signUpValidations }  from "../controllers/SignUpController";
+import { Router } from 'express';
+import { signUpValidations, create } from '../controllers/SignUpController';
+import { requestValidation } from '../../../../../shared/middlerwares/requestValidation';
 
 const router = Router();
 
-router.post('/api/users/signup', signUpValidations, signUpController);
+router.post('/api/users/signup', signUpValidations, requestValidation, create);
 
 export default router;

@@ -1,4 +1,3 @@
-import { Result, ValidationError } from 'express-validator'
 import AppError from './AppError';
 import ICommonErrorResponse, { ErrorType } from './ICommonErrorResponse';
 

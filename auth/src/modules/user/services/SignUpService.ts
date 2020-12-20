@@ -6,12 +6,7 @@ interface IRequest {
     password: string;
 }
 
-interface IResponse {
-    successful: boolean;
-    message: string;
-}
-
-const signUpService = async ({email, password}: IRequest): Promise<UserDoc> => {
+export const execute = async ({email, password}: IRequest): Promise<UserDoc> => {
     const existingUser = await User.findOne({email});
 
     if(existingUser){
@@ -23,5 +18,3 @@ const signUpService = async ({email, password}: IRequest): Promise<UserDoc> => {
     
     return user;
 }
-
-export default signUpService;

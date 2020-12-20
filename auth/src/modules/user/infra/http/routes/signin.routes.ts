@@ -1,11 +1,9 @@
-import express, {Request, Response, Router  } from 'express';
+import { Router } from 'express';
+import { signInValidations, create } from '../controllers/SignInController';
+import { requestValidation } from '../../../../../shared/middlerwares/requestValidation';
 
 const router = Router();
 
-router.post('/api/users/signin', (req, res) => {
-    const { email, password } = req.body;
-
-    res.send('Signin!');
-});
+router.post('/api/users/signin', signInValidations, requestValidation, create);
 
 export default router;
