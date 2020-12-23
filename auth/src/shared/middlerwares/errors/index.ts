@@ -12,7 +12,7 @@ const errorHandler = (
         const reqid = v4();
 
         //to implement logs here
-        console.log(`${reqid}:::`, err);
+        //console.log(`${reqid}:::`, err);
         if(err instanceof AppError){
             return res.status(err.statusCode).json(err.serializedError());
         }
@@ -23,7 +23,7 @@ const errorHandler = (
         }
 
         //to implement logs here
-        console.error(`${reqid}:::${err.stack}`);
+        //console.error(`${reqid}:::${err.stack}`);
 
         return res.status(500).json({status: 'server.error', messages: ['Please contact system administrator.']});
 };
