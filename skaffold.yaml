@@ -14,3 +14,9 @@ build:
       manual:
         - src: 'src/**/*.ts'
           dest: .
+  - image: brunnouw/client
+    context: client
+    sync:
+      manual:
+        - src: '**/*.js'
+          dest: .

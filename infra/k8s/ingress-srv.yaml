@@ -21,6 +21,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: auth-serv
+              name: client-serv
               port:
                 number: 3000
