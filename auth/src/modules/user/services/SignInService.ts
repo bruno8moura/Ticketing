@@ -13,7 +13,7 @@ interface IResponse {
     session: SessionObject;
 }
 
-interface SessionObject {
+export interface SessionObject {
     jwt: string;
 }
 

@@ -14,7 +14,9 @@ export const signUpValidations = [
 
 export const create = async (request: Request, response: Response): Promise<Response> => {
     const { email, password } = request.body;
-    const createdUser = await execute({email, password});
+    const { user, session } = await execute({email, password});
+
+    request.session = session;
     
-    return response.status(201).json(createdUser);
+    return response.status(201).json(user);
 };
