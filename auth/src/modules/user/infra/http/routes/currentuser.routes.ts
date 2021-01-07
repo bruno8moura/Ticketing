@@ -5,6 +5,6 @@ import { auth } from '../../../../../shared/middlerwares/auth';
 
 const router = Router();
 
-router.get('/api/users/currentuser', currentUser, auth, index);
+router.get('/api/users/currentuser', currentUser, /* auth, */ index);
 
 export default router;
