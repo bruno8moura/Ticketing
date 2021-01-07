@@ -14,11 +14,7 @@ const signup = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-
         await doRequest();
-        
-        setEmail('');
-        setPassword('');
     };
 
     return (
