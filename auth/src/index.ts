@@ -1,7 +1,7 @@
 import { app } from './app';
 import mongoose from 'mongoose';
-import JwtSecretNotDefinedError from './shared/errors/JwtSecretNotDefinedError';
-import DatabaseError from './shared/errors/DatabaseError';
+import { JwtSecretNotDefinedError } from '@bcmtickets/common';
+import { DatabaseError } from '@bcmtickets/common';
 
 const start = async () => {
     if(!process.env.JWT_KEY){

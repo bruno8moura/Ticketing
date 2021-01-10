@@ -8,8 +8,8 @@ import currentUserRouter from './modules/user/infra/http/routes/currentuser.rout
 import signinRouter from './modules/user/infra/http/routes/signin.routes';
 import signoutRouter from './modules/user/infra/http/routes/signout.routes';
 import signUpRouter from './modules/user/infra/http/routes/signup.routes';
-import errorHandler from "./shared/middlerwares/errors";
-import NotFoundError from './shared/errors/NotFoundError';
+import { errorHandler } from '@bcmtickets/common';
+import { NotFoundError } from '@bcmtickets/common';
 
 const app = express();
 app.set('trust proxy', true); // tell to express that it is behind a trusted proxy

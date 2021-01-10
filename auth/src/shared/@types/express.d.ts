@@ -1,7 +1,4 @@
-export interface UserPayload {
-    id: string;
-    email: string;
-}
+import { UserPayload } from "@bcmtickets/common";
 
 declare global {
     namespace Express{

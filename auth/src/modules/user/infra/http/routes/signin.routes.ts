@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { signInValidations, create } from '../controllers/SignInController';
-import { requestValidation } from '../../../../../shared/middlerwares/requestValidation';
+import { requestValidation } from '@bcmtickets/common';
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import UserAlreadyExistsError from '../../../shared/errors/UserAlreadyExistsError';
+import { UserAlreadyExistsError } from '@bcmtickets/common';
 import { User, UserDoc } from '../models/User';
 import { SessionObject, execute as signin  } from './SignInService';
 

@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import { index } from '../controllers/CurrentUserController';
-import { currentUser } from '../../../../../shared/middlerwares/currentuser';
-import { auth } from '../../../../../shared/middlerwares/auth';
+import { currentUser } from '@bcmtickets/common';
 
 const router = Router();
 
-router.get('/api/users/currentuser', currentUser, /* auth, */ index);
+router.get('/api/users/currentuser', currentUser, index);
 
 export default router;

@@ -1,4 +1,4 @@
-import express, {Request, Response, Router  } from "express";
+import { Router } from "express";
 
 const router = Router();
 import { signOut } from '../controllers/SignOutController';

@@ -1,7 +1,7 @@
-import WrongCredentialsProvidedError from '../../../shared/errors/WrongCredentialsProvidedError';
 import { User, UserDoc } from '../models/User';
 import { Password } from "../../../shared/utils/hash/Password";
 import jwt from 'jsonwebtoken';
+import { WrongCredentialsProvidedError } from '@bcmtickets/common';
 
 interface IRequest {
     email: string;

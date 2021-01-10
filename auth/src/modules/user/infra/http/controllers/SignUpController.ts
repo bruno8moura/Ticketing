@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator'
+import { body } from 'express-validator'
 import { Response, Request } from "express";
 import { execute } from "../../../services/SignUpService";
 
