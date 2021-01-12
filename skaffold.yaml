@@ -10,13 +10,25 @@ build:
   artifacts:
   - image: brunnouw/auth
     context: auth
+    docker:
+      dockerfile: Dockerfile
     sync:
       manual:
         - src: 'src/**/*.ts'
           dest: .
   - image: brunnouw/client
     context: client
+    docker:
+      dockerfile: Dockerfile
     sync:
       manual:
         - src: '**/*.js'
+          dest: .
+  - image: brunnouw/tickets
+    context: tickets
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+        - src: 'src/**/*.ts'
           dest: .

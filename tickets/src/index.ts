@@ -1,7 +1,6 @@
 import { app } from './app';
 import mongoose from 'mongoose';
-import { JwtSecretNotDefinedError } from '@bcmtickets/common';
-import { DatabaseError } from '@bcmtickets/common';
+import { JwtSecretNotDefinedError, DatabaseError } from '@bcmtickets/common';
 
 const start = async () => {
     const [ JWT_KEY, MONGO_URI ] = [ process.env.JWT_KEY, process.env.MONGO_URI ];

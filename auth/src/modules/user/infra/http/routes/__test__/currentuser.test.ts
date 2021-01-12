@@ -12,10 +12,3 @@ it('Responde with details about the current user', async () => {
 
     expect(response.body.currentUser.email).toEqual('test@mail.com')
 });
-
-it('Responds with 401 if not authenticated', async () => {
-    await request(app)
-    .get('/api/users/currentuser')
-    .send()
-    .expect(401);
-});
