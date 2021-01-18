@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ticketsRoutes from '../../../../modules/ticket/infra/http/routes/tickets.routes';
+import ticketsRoutes from '../../../../modules/tickets/infra/http/routes/tickets.routes';
 
 const routes = Router();
 

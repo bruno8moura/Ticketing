@@ -1,6 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
+import './globalfunction';
+
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {

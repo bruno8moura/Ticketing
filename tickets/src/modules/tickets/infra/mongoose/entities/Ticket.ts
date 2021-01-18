@@ -2,11 +2,7 @@ import mongoose from 'mongoose';
 
 // Describes the properties that are required to create a new Ticket
 // What the user need set to create a new Ticket
-interface TicketAttrs {
-    title: string;
-    price: number;
-    userId: string;
-}
+import TicketAttrs from '../../../../dtos/TicketDTO';
 
 // Describes the properties that a Ticket Document has
 // What is needed to persist on database

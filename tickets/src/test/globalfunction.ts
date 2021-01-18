@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 interface User {
     email: string;
@@ -16,7 +17,7 @@ declare global {
 global.signin = (): string[] => {
     // Build JWT payload. { id, email }
     const payload: User = {
-        id: '12312kl31ldd2k3',
+        id: new mongoose.Types.ObjectId().toHexString(),
         email: 'test@mail.com'
     }
 

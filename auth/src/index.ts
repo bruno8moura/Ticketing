@@ -15,6 +15,8 @@ const start = async () => {
     }
 
     try {
+        console.log(MONGO_URI);
+        
         await mongoose.connect( MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -26,6 +28,8 @@ const start = async () => {
             console.log('Listening on port ', PORT);
         });
     } catch (e) {
+        console.log(e.message);
+        
         throw new DatabaseError(`Cannot connect to database: ${e.message}`);
     }
 };

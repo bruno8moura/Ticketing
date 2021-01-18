@@ -1,5 +1,6 @@
 import { TicketAlreadyCreatedError } from '../../../shared/error/TicketAlreadyCreatedError';
-import { Ticket, TicketDoc } from '../../models/Ticket';
+import TicketDTO from '../../dtos/TicketDTO';
+import TicketRepository from '../infra/mongoose/repositories/TicketRepository';
 
 interface IRequest {
     title: string;
@@ -8,17 +9,18 @@ interface IRequest {
 }
 
 interface IResponse {
-    ticket: TicketDoc;
+    ticket: TicketDTO;
 }
 
 export const execute = async ({title, price, userId}: IRequest): Promise<IResponse> => {
-    const existingTicket = await Ticket.findOne( { title, userId } );
+    const ticketRepo = new TicketRepository();
+    const existingTicket = await ticketRepo.findOne( { title, userId } );
 
     if(existingTicket){
         throw new TicketAlreadyCreatedError('Ticket already created to user.');
     }
 
-    const createdTicket = Ticket.build({title, price, userId});
-    await createdTicket.save();    
-    return { ticket: createdTicket };        
+    const createdTicket = await ticketRepo.create({title, price, userId});
+
+    return { ticket: createdTicket };
 }

@@ -37,7 +37,8 @@ spec:
   selector:
     app: tickets
   ports:
-    - protocol: TCP
+    - name: tickets
+      protocol: TCP
       port: 3000
       targetPort: 3000
       
