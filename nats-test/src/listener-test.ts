@@ -1,16 +1,18 @@
 import nats, { Message, Stan } from 'node-nats-streaming';
 import { randomBytes } from 'crypto';
+import TicketCreatedListener from './infra/eventbus/implementation/TicketCreatedListener';
 
 console.clear();
 console.log('pid: ', process.pid);
 
-const CLIENT_ID = randomBytes(4).toString('hex');
+const CLIENT_ID = TicketCreatedListener.name + '-' + randomBytes(4).toString('hex');
 
 const stan = nats.connect('ticketing', CLIENT_ID, {
     url: 'https://localhost:4222'
 });
 
 stan.on('connect', () => {
+    const listener = new TicketCreatedListener(stan);
     console.log(`Listener "${CLIENT_ID}" connected to NATS`);
 
     stan.on('close', () => {
@@ -18,27 +20,7 @@ stan.on('connect', () => {
         process.exit();        
     });
 
-    const options = stan
-    .subscriptionOptions()
-    .setManualAckMode(true)    
-    .setDeliverAllAvailable()
-    .setDurableName('accounting-service');
-
-    const subscription = stan.subscribe(
-                                'ticket:created', 
-                                'order-service-queue-group',
-                                options);
-    
-    subscription.on('message', (msg: Message) => {
-
-        const data = msg.getData();
-        
-
-        if(typeof data === 'string'){
-            console.log(`Received event #${msg.getSequence()} at ${new Date()}, with data: ${data}`);
-        }
-        msg.ack();        
-    });
+    listener.listen();
 });
 
 process.on('SIGINT', () => {
