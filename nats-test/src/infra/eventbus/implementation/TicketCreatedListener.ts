@@ -1,7 +1,9 @@
 import { Message } from "node-nats-streaming";
-import { Listener } from "../Listener";
-import { Subjects } from "../Subjects";
-import { TicketCreatedEvent, Ticket } from "../TicketCreatedEvent";
+import { TicketDTO } from "../../../../../common/src/events/dtos/TicketDTO";
+import { Listener } from "../../../../../common/src/events/Listener";
+import { Subjects } from "../../../../../common/src/events/Subjects";
+import { TicketCreatedEvent } from "../../../../../common/src/events/TicketCreatedEvent";
+import
 
 export default class TicketCreatedListener extends Listener<TicketCreatedEvent>{
     
@@ -12,7 +14,7 @@ export default class TicketCreatedListener extends Listener<TicketCreatedEvent>{
     readonly queueGroupName = 'payments-service';
     ackWaitSeconds = 15;
         
-    onMessage(data: Ticket, msg: Message): void {
+    onMessage(data: TicketDTO, msg: Message): void {
         console.log(`#${msg.getSequence()}. `, data);
         msg.ack();
     }
