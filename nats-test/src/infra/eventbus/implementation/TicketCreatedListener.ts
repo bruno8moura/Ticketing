@@ -3,8 +3,6 @@ import { TicketDTO } from "../../../../../common/src/events/dtos/TicketDTO";
 import { Listener } from "../../../../../common/src/events/Listener";
 import { Subjects } from "../../../../../common/src/events/Subjects";
 import { TicketCreatedEvent } from "../../../../../common/src/events/TicketCreatedEvent";
-import
-
 export default class TicketCreatedListener extends Listener<TicketCreatedEvent>{
     
     // Like final in java language. 
