@@ -1,6 +1,8 @@
 import { NotAuthorizedError, NotFoundError } from '@bcmtickets/common';
+import { TicketUpdatedPublisher } from '../../../events/publishers/TicketUpdatedPublisher';
 import TicketDTO from '../../dtos/TicketDTO';
 import TicketRepository from '../infra/mongoose/repositories/TicketRepository';
+import { natsWapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
 
 interface IRequest {
     id: string;
@@ -26,6 +28,12 @@ export const execute = async ( { id, price, title, userId }: IRequest): Promise<
     }
 
     const updatedTicket = await repo.update({ id, price, title, userId });
+    new TicketUpdatedPublisher(natsWapper.client).publish({
+        id: updatedTicket.id!,
+        title: updatedTicket.title,
+        price: updatedTicket.price,
+        userId: updatedTicket.userId
+    });
 
     return { ticket: updatedTicket};
 }
