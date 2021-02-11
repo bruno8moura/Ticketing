@@ -1,7 +1,7 @@
 import { app } from './app';
 import mongoose from 'mongoose';
 import { JwtSecretNotDefinedError, DatabaseError, StreamingServerError } from '@bcmtickets/common';
-import { natsWapper } from './shared/infra/clients/NATSStreamServer/NATSWrapper';
+import { natsWrapper } from './shared/infra/clients/NATSStreamServer/NATSWrapper';
 
 const start = async () => {
     const [ JWT_KEY, MONGO_URI ] = [ process.env.JWT_KEY, process.env.MONGO_URI ];
@@ -15,19 +15,19 @@ const start = async () => {
     }
 
     try {
-        await natsWapper.connect({
+        await natsWrapper.connect({
             clusterId: 'ticketing', 
             clientId: 'CreateTicket', 
             url: 'https://nats-serv:4222'
         });
 
-        natsWapper.client.on('close', () => {
+        natsWrapper.client.on('close', () => {
             console.log('NATS connection closed!');
             process.exit();       
         })
 
-        process.on('SIGINT', () => natsWapper.client.close());
-        process.on('SIGTERM', () => natsWapper.client.close());
+        process.on('SIGINT', () => natsWrapper.client.close());
+        process.on('SIGTERM', () => natsWrapper.client.close());
 
     } catch (e) {
         throw new StreamingServerError(`Cannot connect to NATS Streaming Server: ${e.message}`);

@@ -2,7 +2,7 @@ import { TicketAlreadyCreatedError } from '../../../shared/error/TicketAlreadyCr
 import TicketDTO from '../../dtos/TicketDTO';
 import TicketRepository from '../infra/mongoose/repositories/TicketRepository';
 import { TicketCreatedPublisher } from '../../../events/publishers/TicketCreatedPublisher';
-import { natsWapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
+import { natsWrapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
 
 interface IRequest {
     title: string;
@@ -23,7 +23,7 @@ export const execute = async ({title, price, userId}: IRequest): Promise<IRespon
     }
 
     const createdTicket = await ticketRepo.create({title, price, userId});
-    await new TicketCreatedPublisher(natsWapper.client).publish({
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
         id: createdTicket.id!,
         title: createdTicket.title,
         price: createdTicket.price,

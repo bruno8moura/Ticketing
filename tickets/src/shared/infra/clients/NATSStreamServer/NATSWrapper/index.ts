@@ -1,4 +1,4 @@
-import nats, {Stan} from 'node-nats-streaming';
+import nats, { Stan } from 'node-nats-streaming';
 
 interface NATSProperties {
     clusterId: string;
@@ -19,14 +19,14 @@ class NATSWrapper {
         return this._client;
     }
 
-    connect(props: NATSProperties) {
+    connect(props: NATSProperties): Promise<boolean> {
         const { clientId, clusterId, url } = props;
 
         this._client = nats.connect(clusterId, clientId, { url: url});
         
         return new Promise((resolve, reject) => {
             this.client.on('connect', () => {
-                console.log('Connected to NATS')
+                console.log('Connected to NATS');
                 return resolve(true);
             });
 
@@ -38,4 +38,5 @@ class NATSWrapper {
     }
 }
 
-export const natsWapper = new NATSWrapper(); // JUST ONE INSTANCE FOR ENTIRE APPLICATION!
+// JUST ONE INSTANCE FOR ENTIRE APPLICATION! IT MEANS ONE CLIENT FOR ALL APPLICATION
+export const natsWrapper = new NATSWrapper(); 
