@@ -3,6 +3,9 @@ import { app } from '../../../../../../app';
 import '../../../../../../test/globalfunction';
 import TicketRepository from '../../../mongoose/repositories/TicketRepository';
 
+//invoke the mock instead of the real object NATS
+import { natsWrapper } from '../../../../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
+
 describe( 'CreateTicket', () => {
     it( 'has a route handler listening to /api/tickets for post requests', async () => {
         const response = await request(app)
@@ -85,4 +88,23 @@ describe( 'CreateTicket', () => {
         expect(foundTickets[0].title).toEqual(title);
         expect(foundTickets[0].price).toEqual(price);
     } );
+    
+    it('publishes an event', async () => {
+        const title = 'adfasdf';
+        const price = 20;
+        
+        await request(app)
+        .post('/api/tickets')
+        .set('Cookie', global.signin())
+        .send({
+            title,
+            price
+        })
+        .expect(201);
+
+        const publish = jest.spyOn(natsWrapper.client, 'publish');
+        
+        expect(publish).toHaveBeenCalled();    
+        
+    });
 } );

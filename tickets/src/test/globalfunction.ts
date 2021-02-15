@@ -14,6 +14,10 @@ declare global {
     }
 }
 
+// Tell jest to use our mock file(__mock__) instead use the real NATS client.
+// Tell jest which file we want to fake.
+jest.mock('../shared/infra/clients/NATSStreamServer/NATSWrapper');
+
 global.signin = (): string[] => {
     // Build JWT payload. { id, email }
     const payload: User = {
