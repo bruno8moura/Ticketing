@@ -2,23 +2,34 @@ import { app } from './app';
 import mongoose from 'mongoose';
 import { JwtSecretNotDefinedError, DatabaseError, StreamingServerError } from '@bcmtickets/common';
 import { natsWrapper } from './shared/infra/clients/NATSStreamServer/NATSWrapper';
+import { variable } from './env_variables';
 
-const start = async () => {
-    const [ JWT_KEY, MONGO_URI ] = [ process.env.JWT_KEY, process.env.MONGO_URI ];
-
-    if(!JWT_KEY){
+const start = async () => {    
+    if(!variable.JWT_KEY){
         throw new JwtSecretNotDefinedError();
     }
 
-    if(!MONGO_URI){
+    if(!variable.MONGO_URI){
         throw new Error('MONGO_URI must be defined');
+    }
+
+    if(!variable.NATS_CLUSTER_ID){
+        throw new Error('NATS_CLUSTER_ID must be defined');
+    }
+
+    if(!variable.NATS_URL){
+        throw new Error('NATS_URL must be defined');
+    }
+
+    if(!variable.NATS_CLIENT_ID){
+        throw new Error('NATS_CLIENT_ID must be defined');
     }
 
     try {
         await natsWrapper.connect({
-            clusterId: 'ticketing', 
-            clientId: 'CreateTicket', 
-            url: 'https://nats-serv:4222'
+            clusterId: variable.NATS_CLUSTER_ID, 
+            clientId: variable.NATS_CLIENT_ID, 
+            url: variable.NATS_URL
         });
 
         natsWrapper.client.on('close', () => {
@@ -34,7 +45,7 @@ const start = async () => {
     }
 
     try {
-        await mongoose.connect( MONGO_URI, {
+        await mongoose.connect( variable.MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
@@ -44,9 +55,8 @@ const start = async () => {
         throw new DatabaseError(`Cannot connect to database: ${e.message}`);
     }
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log('Listening on port ', PORT);
+    app.listen(variable.PORT, () => {
+        console.log('Listening on port ', variable.PORT);
     });
 };
 

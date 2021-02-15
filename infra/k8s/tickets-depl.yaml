@@ -18,6 +18,14 @@ spec:
       - name: tickets
         image: brunnouw/tickets
         env:
+          - name: NATS_CLIENT_ID
+            valueFrom: 
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NATS_URL
+            value: 'https://nats-serv:4222'
+          - name: NATS_CLUSTER_ID
+            value: ticketing
           - name: JWT_KEY
             valueFrom:
               secretKeyRef:
