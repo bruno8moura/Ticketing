@@ -1,55 +1,58 @@
 import mongoose from 'mongoose';
+import { Order, OrderStatus } from './Order';
 
-// Describes the properties that are required to create a new Ticket
-// What the user need set to create a new Ticket
-import TicketAttrs from '../../../../dtos/TicketDTO';
+interface TicketAttrs {
+    title: string;
+    price: number;
+}
 
-// Describes the properties that a Ticket Document has
-// What is needed to persist on database
 export interface TicketDoc extends mongoose.Document {
     title: string;
     price: number;
-    userId: string;
-    createdAt: Date;
+    isReserved(): Promise<boolean>;
 }
 
-// Describes the properties that a Ticket Model has
 interface TicketModel extends mongoose.Model<TicketDoc> {
     build(attrs: TicketAttrs): TicketDoc;
 }
 
 const ticketSchema = new mongoose.Schema({
-        title: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        },
-        userId: {
-            type: String,
-            required: true
-        },
-        createdAt: {
-            type: Date,
-            default: new Date(),
-            required: true
-        }
+    title: {
+        type: String,
+        required: true
     },
-    {
-        toJSON:{
-            transform(doc, ret) {
-                ret.id = ret._id;
-                delete ret._id;
-            }
+    price: {
+        type: Number,
+        required: true,
+        min: 0
+    }
+}, {
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
         }
     }
-);
+});
 
-// Grant that Ticket Schema is followed
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
     return new Ticket(attrs);
+};
+
+ticketSchema.methods.isReserved = async function() {
+    // We are using function because "this === ticket instance"
+    const existingOrder = await Order.findOne({
+        ticket: this,
+        status: {
+            $in: [
+                OrderStatus.Created,
+                OrderStatus.AwaitingPayment,
+                OrderStatus.Complete
+            ]
+        }
+    });
+
+    return !!existingOrder;
 };
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);

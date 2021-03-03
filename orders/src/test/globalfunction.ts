@@ -1,3 +1,4 @@
+import { JWT_KEY } from '../env_variables';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
@@ -26,15 +27,15 @@ global.signin = (): string[] => {
     }
 
     // Create the JWT!
-    const token = jwt.sign(payload, process.env.JWT_KEY!);
+    const token = jwt.sign(payload, JWT_KEY!);
 
-    // Build session Object. { jwt: MY-JWT }
+    // Build session JSON Object. { jwt: MY-JWT }
     const session = { jwt: token };
 
-    // Turn that session into JSON
+    // Turn that session JSON Object into string
     const sessionJSON = JSON.stringify(session);
 
-    // Take JSON and encode it as base64
+    // Take JSON string and encode it as base64
     const base64 = Buffer.from(sessionJSON).toString('base64');
 
     // return a string thats the cookie with the encoded data

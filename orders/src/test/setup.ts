@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
@@ -5,8 +6,7 @@ import './globalfunction';
 
 let mongo: MongoMemoryServer;
 
-beforeAll(async () => {
-    process.env.JWT_KEY = 'asdf';
+beforeAll(async () => {    
     mongo = new MongoMemoryServer();
     const mongoUri = await mongo.getUri();
 
