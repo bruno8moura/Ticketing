@@ -1,8 +1,10 @@
 import { Response, Request  } from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { Ticket } from '../../mongoose/entities/Ticket';
 import mongoose from 'mongoose';
 import CreateOrderService from '../../../services/CreateOrderService';
+import ListOrderService from '../../../services/ListOrderService';
+import { OrderStatus, getOrderStatus } from '@bcmtickets/common';
 
 export const createOrderValidations = [
     body('ticketId')
@@ -12,10 +14,20 @@ export const createOrderValidations = [
     .withMessage('TicketId must be provided.'),
 ];
 
+export const listOrdersValidations = [
+    param('status')
+    .not()
+    .isEmpty()
+    .custom((input: string) => [OrderStatus.Created, OrderStatus.Complete, OrderStatus.Cancelled, OrderStatus.AwaitingPayment])
+    .withMessage(`Invalid order status. The status valid are ${JSON.stringify(OrderStatus)}`)
+];
 
 export const index = async (req: Request, res: Response) => {
-    const tickets = await Ticket.find({});
-    return res.send(tickets);
+    
+    const userId = req.currentUser!.id;
+    const orderList = await new ListOrderService().execute({ userId });
+    
+    return res.status(200).send({ docs: orderList});
 };
 
 export const del = async (req: Request, res: Response) => {
