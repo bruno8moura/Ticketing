@@ -37,14 +37,18 @@ export default class CreateOrderService{
 
         await order.save();
 
-        // Publish an event saying that an order was created
+        // TODO - Publish an event saying that an order was created
 
-        const { id, expiresAt, status} = order;
         return {
-            id,
-            userId,
-            expiresAt,
-            status
+            id: order.id!,
+            userId: order.userId,
+            expiresAt: order.expiresAt,
+            status: order.status,
+            ticket: {
+                id: ticket.id!,
+                title: ticket.title,
+                price: ticket.price
+            }
         };
     }
 }

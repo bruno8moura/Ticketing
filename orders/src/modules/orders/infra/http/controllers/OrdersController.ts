@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import CreateOrderService from '../../../services/CreateOrderService';
 import ListOrderService from '../../../services/ListOrderService';
 import { OrderStatus, getOrderStatus } from '@bcmtickets/common';
+import FindByIdOrderService from '../../../services/FindByIdOrderService';
 
 export const createOrderValidations = [
     body('ticketId')
@@ -12,14 +13,6 @@ export const createOrderValidations = [
     .isEmpty()
     .custom( (input: string) => mongoose.Types.ObjectId.isValid(input) )
     .withMessage('TicketId must be provided.'),
-];
-
-export const listOrdersValidations = [
-    param('status')
-    .not()
-    .isEmpty()
-    .custom((input: string) => [OrderStatus.Created, OrderStatus.Complete, OrderStatus.Cancelled, OrderStatus.AwaitingPayment])
-    .withMessage(`Invalid order status. The status valid are ${JSON.stringify(OrderStatus)}`)
 ];
 
 export const index = async (req: Request, res: Response) => {
@@ -36,8 +29,10 @@ export const del = async (req: Request, res: Response) => {
 };
 
 export const show = async (req: Request, res: Response) => {
-    const tickets = await Ticket.find({});
-    return res.send(tickets);
+    const { orderId } = req.params;
+
+    const order = await new FindByIdOrderService().execute({orderId: `${orderId}`, userId: req.currentUser!.id})
+    return res.send( order );
 };
 
 export const create = async (req: Request, res: Response) => {
