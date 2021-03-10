@@ -1,4 +1,6 @@
 import { NotFoundError, NotAuthorizedError, OrderStatus } from '@bcmtickets/common';
+import { OrderCancelledPublisher } from '../../../events/publishers/OrderCancelledPublisher';
+import { natsWrapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
 import OrderDTO from '../../dtos/OrderDTO';
 import { Order } from '../infra/mongoose/entities/Order';
 
@@ -27,16 +29,32 @@ export default class DeleteOrderService{
         order.status = OrderStatus.Cancelled;
         await order.save();
 
-        return {
-                id: order.id!, 
-                expiresAt: order.expiresAt, 
-                status: order.status, 
-                userId: order.userId, 
-                ticket: {
-                    id: order.ticket.id!,
-                    price: order.ticket.price,
-                    title: order.ticket.title
-                } 
+        const cancelledOrder = {
+            id: order.id!, 
+            expiresAt: order.expiresAt, 
+            status: order.status, 
+            userId: order.userId, 
+            ticket: {
+                id: order.ticket.id!,
+                price: order.ticket.price,
+                title: order.ticket.title
+            } 
         };
+
+        const publisher = new OrderCancelledPublisher(natsWrapper.client);        
+        publisher.publish({
+            id: cancelledOrder.id,
+            status: cancelledOrder.status,
+            userId: cancelledOrder.userId,
+            expiresAt: cancelledOrder.expiresAt.toISOString(), //UTC time format(agnostic timezone)
+            ticket: {
+             id: cancelledOrder.ticket.id,
+             price: cancelledOrder.ticket.price,
+             title: cancelledOrder.ticket.title,
+             userId: ''
+            }
+        });        
+
+        return cancelledOrder;
     }
 }
