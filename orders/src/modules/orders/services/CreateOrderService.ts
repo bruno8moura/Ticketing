@@ -3,6 +3,8 @@ import { Order, OrderDoc } from '../infra/mongoose/entities/Order';
 import { NotFoundError, OrderStatus, BadRequestError } from '@bcmtickets/common';
 import OrderDTO from '../../dtos/OrderDTO';
 import { EXPIRATION_WINDOW_SECONDS } from '../../../env_variables';
+import { OrderCreatedPublisher } from '../../../events/publishers/OrderCreatedPublisher';
+import { natsWrapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
 
 interface IRequest {
     ticketId: string;
@@ -37,9 +39,7 @@ export default class CreateOrderService{
 
         await order.save();
 
-        // TODO - Publish an event saying that an order was created
-
-        return {
+        const newOrder = {
             id: order.id!,
             userId: order.userId,
             expiresAt: order.expiresAt,
@@ -50,5 +50,22 @@ export default class CreateOrderService{
                 price: ticket.price
             }
         };
+
+        // Publish an event saying that an order was created
+        const publisher = new OrderCreatedPublisher(natsWrapper.client);        
+        publisher.publish({
+            id: newOrder.id,
+            status: newOrder.status,
+            userId: newOrder.userId,
+            expiresAt: newOrder.expiresAt.toISOString(), //UTC time format(agnostic timezone)
+            ticket: {
+             id: newOrder.ticket.id,
+             price: newOrder.ticket.price,
+             title: newOrder.ticket.title,
+             userId: ''
+            }
+        });
+
+        return newOrder;
     }
 }
