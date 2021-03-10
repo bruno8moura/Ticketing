@@ -8,7 +8,7 @@ export const natsWrapper = {
 
 
 // THE MOCK ONLY WORKS WITH JSON!!!
-// BUILD CLASS AN INSTANCE A OBJECT FROM IT DOESN'T WORK!!
+// WRITE CLASS AND TO INSTANCE AN OBJECT FROM IT DOESN'T WORK!!
 /* 
 class NATSWrapper {
     get client() {
