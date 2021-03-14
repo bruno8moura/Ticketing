@@ -1,6 +1,8 @@
 import { StreamingServerError } from '@bcmtickets/common';
 import { NATS_CLIENT_ID, NATS_CLUSTER_ID, NATS_URL } from '../../../../env_variables';
 import { natsWrapper } from '../../clients/NATSStreamServer/NATSWrapper';
+import TicketCreatedListener from '../../../../events/listeners/TicketCreatedListener';
+import TicketUpdatedListener from '../../../../events/listeners/TicketUpdatedListener';
 
 export const connect = async () => {
     try {
@@ -28,6 +30,9 @@ export const connect = async () => {
             process.exit();       
         })
 
+        new TicketCreatedListener(natsWrapper.client).listen();
+        new TicketUpdatedListener(natsWrapper.client).listen();
+        
         process.on('SIGINT', () => natsWrapper.client.close());
         process.on('SIGTERM', () => natsWrapper.client.close());
 
