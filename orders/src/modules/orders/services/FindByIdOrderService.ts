@@ -28,11 +28,13 @@ export default class FindByIdOrderService{
                 id: order.id!, 
                 expiresAt: order.expiresAt, 
                 status: order.status, 
-                userId: order.userId, 
+                userId: order.userId,
+                version: order.version, 
                 ticket: {
                     id: order.ticket.id!,
                     price: order.ticket.price,
-                    title: order.ticket.title
+                    title: order.ticket.title,
+                    version: order.ticket.version
                 } 
         };
     }

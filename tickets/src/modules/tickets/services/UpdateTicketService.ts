@@ -28,11 +28,13 @@ export const execute = async ( { id, price, title, userId }: IRequest): Promise<
     }
 
     const updatedTicket = await repo.update({ id, price, title, userId });
+    
     new TicketUpdatedPublisher(natsWrapper.client).publish({
         id: updatedTicket.id!,
         title: updatedTicket.title,
         price: updatedTicket.price,
-        userId: updatedTicket.userId
+        userId: updatedTicket.userId,
+        version: updatedTicket.version!
     });
 
     return { ticket: updatedTicket};

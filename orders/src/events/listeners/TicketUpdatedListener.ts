@@ -1,4 +1,4 @@
-import { Listener, Subjects, TicketCreatedEvent, TicketUpdatedEvent } from "@bcmtickets/common";
+import { Listener, Subjects, TicketUpdatedEvent } from "@bcmtickets/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../modules/orders/infra/mongoose/entities/Ticket";
 import { queueGroupsName } from './QueueGroupNames';
@@ -6,9 +6,15 @@ import { queueGroupsName } from './QueueGroupNames';
 export default class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     readonly subject = Subjects.TicketUpdated;
     queueGroupName = queueGroupsName.order;
-    async onMessage(data: TicketCreatedEvent['data'], msg: Message): Promise<void> {
-        const { id, price, title } = data;
-        const ticket = await Ticket.findById(id);
+    async onMessage(data: TicketUpdatedEvent['data'], msg: Message): Promise<void> {
+        console.log('data: ', data);
+        //console.log( data );
+        
+        const { id, price, title, version } = data;
+        const ticket = await Ticket.findOne({
+            _id: data.id,
+            version: version -1
+        });
 
         if(!ticket) {
             throw new Error('Ticket not found');

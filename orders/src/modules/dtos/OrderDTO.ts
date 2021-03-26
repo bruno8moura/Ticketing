@@ -5,6 +5,7 @@ interface OrderDTO {
     userId: string;
     status: string;
     expiresAt: Date;
+    version: number;
     ticket: TicketDTO;
 }
 

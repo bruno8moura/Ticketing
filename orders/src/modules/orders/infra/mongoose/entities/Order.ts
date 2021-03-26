@@ -1,6 +1,7 @@
 import { OrderStatus } from '@bcmtickets/common';
 import mongoose from 'mongoose';
 import { TicketDoc } from './Ticket';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // Describes the properties that are required to create a new Ticket
 // What the user need set to create a new Ticket
@@ -19,6 +20,7 @@ export interface OrderDoc extends mongoose.Document {
     userId: string; //'string' here is a typescript type. Reason why 's' from 'string' is lower case
     status: OrderStatus;
     expiresAt: Date;
+    version: number;
     ticket: TicketDoc;
 }
 
@@ -59,6 +61,9 @@ const orderSchema = new mongoose.Schema({
         }
     }
 );
+
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 /**
  * Grant that Schema is followed

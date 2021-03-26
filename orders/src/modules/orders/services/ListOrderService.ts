@@ -29,9 +29,15 @@ export default class ListOrderService{
                 expiresAt: order.expiresAt,
                 status: order.status,
                 userId: order.userId,
-                ticket: { id: order.ticket.id!, title: order.ticket.title, price: order.ticket.price }
-            }
-        })
+                version: order.version,
+                ticket: { 
+                    id: order.ticket.id!, 
+                    title: order.ticket.title, 
+                    price: order.ticket.price,
+                    version: order.ticket.version, 
+                }
+            };
+        });
 
         return orders;
     }

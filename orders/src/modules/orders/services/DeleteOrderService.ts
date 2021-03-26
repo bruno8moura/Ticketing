@@ -33,11 +33,13 @@ export default class DeleteOrderService{
             id: order.id!, 
             expiresAt: order.expiresAt, 
             status: order.status, 
-            userId: order.userId, 
+            userId: order.userId,
+            version: order.version,
             ticket: {
                 id: order.ticket.id!,
                 price: order.ticket.price,
-                title: order.ticket.title
+                title: order.ticket.title,
+                version: order.ticket.version
             } 
         };
 
@@ -47,11 +49,13 @@ export default class DeleteOrderService{
             status: cancelledOrder.status,
             userId: cancelledOrder.userId,
             expiresAt: cancelledOrder.expiresAt.toISOString(), //UTC time format(agnostic timezone)
+            version: cancelledOrder.version,
             ticket: {
              id: cancelledOrder.ticket.id,
              price: cancelledOrder.ticket.price,
              title: cancelledOrder.ticket.title,
-             userId: ''
+             userId: '',
+             version: cancelledOrder.ticket.version
             }
         });        
 

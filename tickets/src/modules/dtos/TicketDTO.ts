@@ -4,7 +4,7 @@ interface TicketDTO {
     userId: string;
     createdAt?: Date;
     id?: string;
-    _v?: number | undefined;
+    version?: number | undefined;
 }
 
 export default TicketDTO;

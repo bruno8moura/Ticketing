@@ -19,6 +19,7 @@ export default class TicketRepository implements ITicketRepository {
             price,
             userId,
             id,
+            version: ticket?.version
         };
 
     }
@@ -41,7 +42,7 @@ export default class TicketRepository implements ITicketRepository {
             price: ticket.price,
             userId: ticket.userId,
             createdAt: ticket.createdAt,
-            _v: ticket.__v
+            version: ticket.version
         };
     }
 

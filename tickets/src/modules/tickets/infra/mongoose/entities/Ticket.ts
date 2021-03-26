@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 // Describes the properties that are required to create a new Ticket
 // What the user need set to create a new Ticket
 import TicketAttrs from '../../../../dtos/TicketDTO';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // Describes the properties that a Ticket Document has
 // What is needed to persist on database
@@ -11,6 +12,7 @@ export interface TicketDoc extends mongoose.Document {
     price: number;
     userId: string;
     createdAt: Date;
+    version: number;
 }
 
 // Describes the properties that a Ticket Model has
@@ -46,6 +48,8 @@ const ticketSchema = new mongoose.Schema({
         }
     }
 );
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 // Grant that Ticket Schema is followed
 ticketSchema.statics.build = (attrs: TicketAttrs) => {

@@ -44,10 +44,12 @@ export default class CreateOrderService{
             userId: order.userId,
             expiresAt: order.expiresAt,
             status: order.status,
+            version: order.version,            
             ticket: {
                 id: ticket.id!,
                 title: ticket.title,
-                price: ticket.price
+                price: ticket.price,
+                version: ticket.version
             }
         };
 
@@ -58,11 +60,13 @@ export default class CreateOrderService{
             status: newOrder.status,
             userId: newOrder.userId,
             expiresAt: newOrder.expiresAt.toISOString(), //UTC time format(agnostic timezone)
+            version: newOrder.version,
             ticket: {
              id: newOrder.ticket.id,
              price: newOrder.ticket.price,
              title: newOrder.ticket.title,
-             userId: ''
+             userId: '',
+             version: newOrder.ticket.version
             }
         });
 

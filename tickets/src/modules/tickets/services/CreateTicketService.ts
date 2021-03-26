@@ -27,7 +27,8 @@ export const execute = async ({title, price, userId}: IRequest): Promise<IRespon
         id: createdTicket.id!,
         title: createdTicket.title,
         price: createdTicket.price,
-        userId: createdTicket.userId
+        userId: createdTicket.userId,
+        version: createdTicket.version!
     });
 
     return { ticket: createdTicket };
