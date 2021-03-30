@@ -1,13 +1,13 @@
 import request from 'supertest';
-import { uuid } from 'uuidv4';
 import { app } from '../../../../../../app';
 import { natsWrapper } from '../../../../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
 import { Order, OrderStatus } from '../../../mongoose/entities/Order';
 import { Ticket, TicketDoc } from '../../../mongoose/entities/Ticket';
+import mongoose from 'mongoose';
 
 const buildTicket = async (title: string, price: number): Promise<TicketDoc> => {
     const ticket = Ticket.build({
-        id: uuid(),
+        id: mongoose.Types.ObjectId().toHexString(),
         title,
         price
     });

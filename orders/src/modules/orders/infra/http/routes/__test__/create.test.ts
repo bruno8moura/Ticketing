@@ -4,7 +4,6 @@ import { app } from '../../../../../../app';
 import { Order, OrderStatus } from '../../../mongoose/entities/Order';
 import { Ticket } from '../../../mongoose/entities/Ticket';
 import { natsWrapper } from '../../../../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
-import { uuid } from 'uuidv4';
 
 describe('Create an order', () => {
     it('should returns an error if the ticket does not exist', async () => {
@@ -19,7 +18,7 @@ describe('Create an order', () => {
 
     it('should returns an error if the ticket is already reserved', async () => {
         const ticket = Ticket.build({
-            id: uuid(),
+            id: mongoose.Types.ObjectId().toHexString(),
             title: 'concert',
             price: 20
         });
@@ -43,7 +42,7 @@ describe('Create an order', () => {
 
     it('should reserves a ticket', async () => {
         const ticket = Ticket.build({
-            id: uuid(),
+            id: mongoose.Types.ObjectId().toHexString(),
             title: 'concert',
             price: 20
         });
@@ -58,7 +57,7 @@ describe('Create an order', () => {
 
     it('emits an order created event', async () => {
         const ticket = Ticket.build({
-            id: uuid(),
+            id: mongoose.Types.ObjectId().toHexString(),
             title: 'concert',
             price: 20
         });
