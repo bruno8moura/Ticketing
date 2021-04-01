@@ -13,6 +13,7 @@ export interface TicketDoc extends mongoose.Document {
     userId: string;
     createdAt: Date;
     version: number;
+    orderId?: string;
 }
 
 // Describes the properties that a Ticket Model has
@@ -37,6 +38,9 @@ const ticketSchema = new mongoose.Schema({
             type: Date,
             default: new Date(),
             required: true
+        },
+        orderId: {
+            type: String
         }
     },
     {
