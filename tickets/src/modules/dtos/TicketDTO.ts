@@ -5,6 +5,7 @@ interface TicketDTO {
     createdAt?: Date;
     id?: string;
     version?: number | undefined;
+    orderId?: string;
 }
 
 export default TicketDTO;

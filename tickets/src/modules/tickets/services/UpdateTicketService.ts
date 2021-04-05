@@ -1,4 +1,4 @@
-import { NotAuthorizedError, NotFoundError } from '@bcmtickets/common';
+import { BadRequestError, NotAuthorizedError, NotFoundError } from '@bcmtickets/common';
 import { TicketUpdatedPublisher } from '../../../events/publishers/TicketUpdatedPublisher';
 import TicketDTO from '../../dtos/TicketDTO';
 import TicketRepository from '../infra/mongoose/repositories/TicketRepository';
@@ -21,6 +21,10 @@ export const execute = async ( { id, price, title, userId }: IRequest): Promise<
     
     if(!ticket){
         throw new NotFoundError();
+    }
+
+    if(ticket.orderId) {
+        throw new BadRequestError('Cannot edit a reserved ticket');
     }
 
     if(ticket.userId !== userId) {

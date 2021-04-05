@@ -77,7 +77,8 @@ export default class TicketRepository implements ITicketRepository {
             title: ticket.title,
             price: ticket.price,
             userId: ticket.userId,
-            createdAt: ticket.createdAt
+            createdAt: ticket.createdAt,
+            orderId: ticket.orderId
         };
     }    
 }
