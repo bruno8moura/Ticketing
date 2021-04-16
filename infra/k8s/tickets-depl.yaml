@@ -32,7 +32,12 @@ spec:
                 name: jwt-secret
                 key: JWT_KEY
           - name: MONGO_URI
-            value: 'mongodb://tickets-mongo-srv:27017/tickets'              
+            value: 'mongodb://tickets-mongo-srv:27017/tickets'      
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ
         ports:
         - containerPort: 3000
 ---

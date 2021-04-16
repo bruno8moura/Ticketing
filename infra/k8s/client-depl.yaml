@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: client
-        image: brunnouw/client                
+        image: brunnouw/client
+        env:
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ           
 ---
 apiVersion: v1
 kind: Service

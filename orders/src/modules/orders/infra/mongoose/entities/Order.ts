@@ -2,6 +2,7 @@ import { OrderStatus } from '@bcmtickets/common';
 import mongoose from 'mongoose';
 import { TicketDoc } from './Ticket';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { setLocalTimezone } from '@bcmtickets/common';
 
 // Describes the properties that are required to create a new Ticket
 // What the user need set to create a new Ticket
@@ -44,7 +45,7 @@ const orderSchema = new mongoose.Schema({
         },        
         expiresAt: {
             type: mongoose.Schema.Types.Date,
-            default: new Date(),
+            default: setLocalTimezone(new Date()),
             required: false
         },
         ticket: {

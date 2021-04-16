@@ -25,6 +25,11 @@ spec:
                 key: JWT_KEY
           - name: MONGO_URI
             value: 'mongodb://auth-mongo-srv:27017/auth'
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ
         ports:
         - containerPort: 3000
 ---

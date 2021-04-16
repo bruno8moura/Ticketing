@@ -1,10 +1,11 @@
 import { Ticket } from '../infra/mongoose/entities/Ticket';
 import { Order, OrderDoc } from '../infra/mongoose/entities/Order';
-import { NotFoundError, OrderStatus, BadRequestError } from '@bcmtickets/common';
+import { NotFoundError, OrderStatus, BadRequestError,  } from '@bcmtickets/common';
 import OrderDTO from '../../dtos/OrderDTO';
 import { EXPIRATION_WINDOW_SECONDS } from '../../../env_variables';
 import { OrderCreatedPublisher } from '../../../events/publishers/OrderCreatedPublisher';
 import { natsWrapper } from '../../../shared/infra/clients/NATSStreamServer/NATSWrapper';
+import { setLocalTimezoneAndSomeTimeInFuture } from '@bcmtickets/common';
 
 interface IRequest {
     ticketId: string;
@@ -27,7 +28,7 @@ export default class CreateOrderService{
 
         // Calculate an expiration date for this order
         const expiration = new Date();
-        expiration.setSeconds(expiration.getSeconds() + eval(EXPIRATION_WINDOW_SECONDS));
+        setLocalTimezoneAndSomeTimeInFuture(expiration, eval(EXPIRATION_WINDOW_SECONDS));
 
         // Build the order and save it to the database
         const order = Order.build({

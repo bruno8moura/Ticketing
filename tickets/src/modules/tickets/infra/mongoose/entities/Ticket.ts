@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 // What the user need set to create a new Ticket
 import TicketAttrs from '../../../../dtos/TicketDTO';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { setLocalTimezone } from '@bcmtickets/common';
+
 
 // Describes the properties that a Ticket Document has
 // What is needed to persist on database
@@ -36,7 +38,7 @@ const ticketSchema = new mongoose.Schema({
         },
         createdAt: {
             type: Date,
-            default: new Date(),
+            default:  setLocalTimezone(new Date()),
             required: true
         },
         orderId: {

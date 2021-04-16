@@ -26,6 +26,12 @@ spec:
           '-SD', 
           '-cid', 'ticketing'
         ]
+        env:
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ  
 ---
 apiVersion: v1
 kind: Service

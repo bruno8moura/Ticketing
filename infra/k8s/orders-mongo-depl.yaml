@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: orders-mongo
-        image: mongo        
+        image: mongo
+        env:
+        - name: TZ
+          valueFrom:
+            secretKeyRef:
+              name: custom-timezone
+              key: TZ   
 ---
 apiVersion: v1
 kind: Service
