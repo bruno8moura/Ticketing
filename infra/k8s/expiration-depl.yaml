@@ -27,4 +27,9 @@ spec:
           - name: NATS_CLUSTER_ID
             value: ticketing          
           - name: REDIS_HOST
-            value: expiration-redis-srv     
+            value: expiration-redis-srv   
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ    

@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: expiration-redis
-        image: redis        
+        image: redis
+        env:
+          - name: TZ
+            valueFrom:
+              secretKeyRef:
+                name: custom-timezone
+                key: TZ      
 ---
 apiVersion: v1
 kind: Service
