@@ -9,7 +9,7 @@ interface User {
 declare global {
     namespace NodeJS {
         interface Global{
-            signin(): string[];
+            signin(userId?: string): string[];
         }
     }
 }
@@ -18,10 +18,10 @@ declare global {
 // Tell jest which file we want to fake.
 jest.mock('../shared/infra/clients/NATSStreamServer/NATSWrapper');
 
-global.signin = (): string[] => {
+global.signin = (userId?: string): string[] => {
     // Build JWT payload. { id, email }
     const payload: User = {
-        id: new mongoose.Types.ObjectId().toHexString(),
+        id: userId || new mongoose.Types.ObjectId().toHexString(),
         email: 'test@mail.com'
     }
 
