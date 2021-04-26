@@ -38,6 +38,11 @@ spec:
               secretKeyRef:
                 name: custom-timezone
                 key: TZ
+          - name: STRIPE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: stripe-secret
+                key: STRIPE_KEY
         ports:
         - containerPort: 3000
 ---

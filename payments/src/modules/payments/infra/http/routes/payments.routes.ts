@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { create, createPaymentsValidations } from '../controllers/PaymentsController';
 import { requestValidation, auth } from '@bcmtickets/common';
 

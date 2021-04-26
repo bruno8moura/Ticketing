@@ -22,6 +22,6 @@ export const create = async (request: Request, response: Response) => {
         currentUserId: request.currentUser!.id
     });
 
-    return response.send(result);
+    return response.status(201).send(result);
 };
 

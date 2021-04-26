@@ -1,4 +1,5 @@
 import { BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus,  } from "@bcmtickets/common";
+import { stripe } from "../../../shared/infra/clients/stripe";
 import { Order } from "../infra/mongoose/entities/Order";
 
 interface IRequest {
@@ -25,7 +26,13 @@ export const execute = async ({orderId, token, currentUserId}: IRequest): Promis
     if(order.status === OrderStatus.Cancelled) {
         throw new BadRequestError('Cannot pay for an cancelled order');
     }
-    
+
+    const x = await stripe.charges.create({
+        currency: 'usd',
+        amount: order.price * 100, // converting to cents
+        source: token
+    });
+
     return {
         success: true
     };
