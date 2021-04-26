@@ -16,7 +16,7 @@ declare global {
 
 // Tell jest which file we want to fake.
 jest.mock('../shared/infra/clients/NATSStreamServer/NATSWrapper'); // Tell jest to use our mock file(__mock__) instead use the real NATS client.
-jest.mock('../shared/infra/clients/stripe'); // Tell jest to use our mock file(__mock__) instead use the real stripe client.
+// jest.mock('../shared/infra/clients/stripe'); // Tell jest to use our mock file(__mock__) instead use the real stripe client.
 
 global.signin = (userId?: string): string[] => {
     // Build JWT payload. { id, email }

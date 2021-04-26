@@ -29,7 +29,7 @@ export const execute = async ({orderId, token, currentUserId}: IRequest): Promis
 
     const x = await stripe.charges.create({
         currency: 'usd',
-        amount: order.price * 100, // converting to cents
+        amount: order.price,
         source: token
     });
 
