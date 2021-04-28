@@ -26,7 +26,7 @@ export default class ExpirationCompleteListener extends Listener<ExpirationCompl
         await order.save();
 
         /*
-            Here we could use the database feature 'transaction' in order to uncouple this dependency.
+            TODO Here we could use the database feature 'transaction' in order to uncouple this dependency.
             The way it is we are assuming that always the comunication with nats will happen successfully.
         */ 
 
