@@ -25,7 +25,7 @@ spec:
             - name: NATS_URL
               value: 'https://nats-serv:4222'
             - name: EXPIRATION_WINDOW_SECONDS
-              value: '15'
+              value: '120'
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: JWT_KEY

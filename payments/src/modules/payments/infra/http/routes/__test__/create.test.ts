@@ -4,6 +4,7 @@ import request from 'supertest';
 import { app } from '../../../../../../app';
 import { Order } from '../../../mongoose/entities/Order';
 import { stripe } from '../../../../../../shared/infra/clients/stripe';
+import { Payment } from '../../../mongoose/entities/Payment';
 
 it('should returns a 404 when purchasing an order that does not exist', async () => {
     await request(app)
@@ -99,4 +100,11 @@ it('should returns a 201 with valid inputs', async () => {
     expect(chargeOptions.amount).toEqual(20 * 100);
     expect(chargeOptions.currency).toEqual('usd'); 
     */
+
+    const payment = await Payment.findOne({
+        orderId: order.id,
+        thirdPartyPaymentId: stripeCharge!.id
+    });
+
+    expect(payment).not.toBeNull();
 });
