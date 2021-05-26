@@ -1,1 +1,3 @@
-PAREI EM CONFIGURAR O SKAFFOLD!
+# Selling Tickets API
+
+> ⚒👷 __UNDER CONSTRUCTION__ 👷⚒
